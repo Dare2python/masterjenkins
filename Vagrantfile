@@ -32,6 +32,7 @@ Vagrant.configure("2") do |config|
    #echo "export JAVA_HOME=/opt/jdk1.8.0_161" >> /etc/environment
    #echo "export JRE_HOME=/opt/jdk1.8.0_161/jre" >> /etc/environment
    #echo "export PATH=$PATH:/opt/jdk1.8.0_161/bin:/opt/jdk1.8.0_161/jre/bin" >> /etc/environment
+   # export JAVA_HOME=$(readlink -f $(dirname $(readlink -f $(which java) ))/../)
    echo "export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")" >> /etc/environment
    echo $JAVA_HOME
    echo "export _JAVA_OPTIONS=-Xmx512M" >> /etc/environment
