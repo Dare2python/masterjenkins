@@ -22,16 +22,18 @@ Vagrant.configure("2") do |config|
    # cd /opt/
    # wget -q --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz"
    # tar xzf jdk-8u161-linux-x64.tar.gz
-   cd /opt/jdk1.8.0_161/
+   # cd /opt/jdk1.8.0_161/
    yum -y install java-1.8.0-openjdk.x86_64
-   alternatives --install /usr/bin/java java /opt/jdk1.8.0_161/bin/java 2
-   alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_161/bin/jar 2
-   alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_161/bin/javac 2
-   alternatives --set jar /opt/jdk1.8.0_161/bin/jar
-   alternatives --set javac /opt/jdk1.8.0_161/bin/javac
-   echo "export JAVA_HOME=/opt/jdk1.8.0_161" >> /etc/environment
-   echo "export JRE_HOME=/opt/jdk1.8.0_161/jre" >> /etc/environment
-   echo "export PATH=$PATH:/opt/jdk1.8.0_161/bin:/opt/jdk1.8.0_161/jre/bin" >> /etc/environment
+   #alternatives --install /usr/bin/java java /opt/jdk1.8.0_161/bin/java 2
+   #alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_161/bin/jar 2
+   #alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_161/bin/javac 2
+   #alternatives --set jar /opt/jdk1.8.0_161/bin/jar
+   #alternatives --set javac /opt/jdk1.8.0_161/bin/javac
+   #echo "export JAVA_HOME=/opt/jdk1.8.0_161" >> /etc/environment
+   #echo "export JRE_HOME=/opt/jdk1.8.0_161/jre" >> /etc/environment
+   #echo "export PATH=$PATH:/opt/jdk1.8.0_161/bin:/opt/jdk1.8.0_161/jre/bin" >> /etc/environment
+   echo "export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")" >> /etc/environment
+   echo $JAVA_HOME
    echo "export _JAVA_OPTIONS=-Xmx512M" >> /etc/environment
    java -version
    wget -q -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
@@ -45,7 +47,8 @@ Vagrant.configure("2") do |config|
    firewall-cmd --zone=public --add-service=http --permanent
    firewall-cmd --reload
    firewall-cmd --list-all
-   cat /var/lib/jenkins/secrets/initialAdminPassword
+   sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+   yum -y install git
    date
    echo Done! 
   SHELL
